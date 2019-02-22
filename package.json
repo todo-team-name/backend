@@ -12,14 +12,13 @@
   "scripts": {
     "start": "gulp serve",
     "build": "gulp",
-    "lint": "esw *.js server config --color",
-    "lint:watch": "yarn lint -- --watch",
     "test": "cross-env NODE_ENV=test babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha -- --ui bdd --reporter spec --colors --compilers js:babel-core/register ./server/**/*.test.js",
     "test:watch": "yarn test -- --watch",
     "test:check-coverage": "yarn test && istanbul check-coverage",
     "report-coverage": "coveralls < ./coverage/lcov.info"
   },
   "dependencies": {
+    "bcrypt": "3.0.4",
     "bluebird": "3.4.6",
     "body-parser": "1.15.2",
     "compression": "1.6.2",
@@ -72,9 +71,6 @@
   },
   "license": "MIT",
   "config": {
-    "ghooks": {
-      "pre-commit": "yarn lint && yarn test"
-    },
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }

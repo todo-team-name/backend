@@ -1,80 +1,47 @@
 import User from './user.model.js';
+import jwt from 'jsonwebtoken';
+import httpStatus from 'http-status';
+import APIError from '../helpers/APIError';
 
-/**
- * Load user and append to req.
- */
-function load(req, res, next, id) {
-  User.get(id)
-    .then((user) => {
-      req.user = user; // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch(e => next(e));
-}
+const config = require('../../config/env');
 
-/**
- * Get user
- * @returns {User}
- */
-function get(req, res) {
-  return res.json(req.user);
+function sendBackUser(savedUser, res) {
+  const token = jwt.sign({savedUser}, config.jwtSecret);
+  return res.json({
+    token,
+  });
 }
 
 /**
  * Create new user
  * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
+ * @property {string} req.body.password - The password of user.
  * @returns {User}
  */
-function create(req, res, next) {
+function signup(req, res, next) {
   const user = new User({
     username: req.body.username,
-    mobileNumber: req.body.mobileNumber
+    password: req.body.password
   });
 
   user.save()
-    .then(savedUser => res.json(savedUser))
+    .then(savedUser => sendBackUser(savedUser, res))
     .catch(e => next(e));
 }
 
-/**
- * Update existing user
- * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
- * @returns {User}
- */
+function login(req, res, next) {
+  User.findOne({username: req.body.username}).then((candidateUser) => {
+    return candidateUser.comparePasswords(req.body.password);
+  }).then((candidateUser) => sendBackUser(candidateUser, res)).catch(() => {
+    const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED);
+    return next(err);
+  })
+}
+
+// todo implement this
 function update(req, res, next) {
-  const user = req.user;
-  user.username = req.body.username;
-  user.mobileNumber = req.body.mobileNumber;
-
-  user.save()
-    .then(savedUser => res.json(savedUser))
-    .catch(e => next(e));
+  return res.json({no: "u"});
 }
 
-/**
- * Get user list.
- * @property {number} req.query.skip - Number of users to be skipped.
- * @property {number} req.query.limit - Limit number of users to be returned.
- * @returns {User[]}
- */
-function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  User.list({ limit, skip })
-    .then(users => res.json(users))
-    .catch(e => next(e));
-}
 
-/**
- * Delete user.
- * @returns {User}
- */
-function remove(req, res, next) {
-  const user = req.user;
-  user.remove()
-    .then(deletedUser => res.json(deletedUser))
-    .catch(e => next(e));
-}
-
-export default { load, get, create, update, list, remove };
+export default { signup, login, update };
