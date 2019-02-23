@@ -10,8 +10,7 @@
     "yarn": ">=0.17.9"
   },
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "gulp"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "bcrypt": "3.0.4",

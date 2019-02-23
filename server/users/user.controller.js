@@ -6,7 +6,7 @@ const APIError = require('../helpers/APIError');
 const config = require('../../config/env');
 
 function sendBackUser(savedUser, res) {
-  const token = jwt.sign({savedUser}, config.jwtSecret);
+  const token = jwt.sign({user: savedUser}, config.jwtSecret);
   return res.json({
     token,
   });
@@ -25,8 +25,10 @@ function signup(req, res, next) {
   });
 
   user.save()
-    .then(savedUser => sendBackUser(savedUser, res))
-    .catch(e => next(e));
+    .then(savedUser => sendBackUser(savedUser, res)).catch(() => {
+      const err = new APIError('Authentication error', httpStatus.BAD_REQUEST);
+      return next(err);
+    })
 }
 
 function login(req, res, next) {

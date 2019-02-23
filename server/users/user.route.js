@@ -9,7 +9,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/signup')
   /** POST /api/users - Create new user */
-  .post(validate(paramValidation.createUser), userCtrl.signup);
+  .post(userCtrl.signup);
 
 router.route('/login')
   /** GET /api/users/ - Get user */
