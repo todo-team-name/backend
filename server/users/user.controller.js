@@ -1,7 +1,7 @@
-import User from './user.model.js';
-import jwt from 'jsonwebtoken';
-import httpStatus from 'http-status';
-import APIError from '../helpers/APIError';
+const User = require('./user.model.js');
+const jwt = require('jsonwebtoken');
+const httpStatus = require('http-status');
+const APIError = require('../helpers/APIError');
 
 const config = require('../../config/env');
 
@@ -44,4 +44,4 @@ function update(req, res, next) {
 }
 
 
-export default { signup, login, update };
+module.exports = { signup, login, update };

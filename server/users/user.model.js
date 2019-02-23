@@ -1,6 +1,6 @@
-import Promise from 'bluebird';
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt'
+const Promise = require('bluebird');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const SALT_WORK_FACTOR  = 10;
 
@@ -74,4 +74,4 @@ UserSchema.pre('save', function (next) {
 /**
  * @typedef User
  */
-export default mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

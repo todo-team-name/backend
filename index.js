@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import util from 'util';
-import config from './config/env';
-import app from './config/express';
+const mongoose = require('mongoose');
+const util = require('util');
+const config = require('./config/env');
+const app = require('./config/express');
 
 const debug = require('debug')('express-mongoose-es6-rest-api:index');
 
@@ -33,4 +33,4 @@ if (!module.parent) {
   });
 }
 
-export default app;
+module.exports = app;
