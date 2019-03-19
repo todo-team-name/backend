@@ -1,0 +1,37 @@
+{
+  "player_info": {
+    "name": "Name",
+    "points": {
+      "fighter": 0,
+      "pilot": 0,
+      "trader": 0,
+      "engineer": 0
+    },
+    "credits": 0,
+    "inventory": {
+      "max_capacity": 0,
+      "water": 0,
+      "food": 0,
+      "furs": 0,
+      "ore": 0,
+      "games": 0,
+      "fire_arms": 0,
+      "medicine": 0,
+      "machines": 0,
+      "narcotics": 0,
+      "robots": 0
+    },
+    "ship": {
+      "shiptype": "mytype",
+      "location": ["x", "y"],
+      "gadgets": ["gad1", "gad2"],
+      "weapons": ["wep1", "wep2"],
+      "shields": ["sh1", "sh2"]
+    }
+  },
+  "game_info": {
+    "difficulty": "Normal",
+    "planets": ["unsure what to do here yet"],
+    "current_planet": "Also unsure"
+  }
+}
