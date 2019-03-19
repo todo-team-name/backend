@@ -20,6 +20,37 @@ const UserSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  points: {
+    fighter: Number,
+    pilot: Number,
+    trader: Number,
+    engineer: Number
+  },
+  inventory: {
+    max_capacity: Number,
+    water: Number,
+    food: Number,
+    furs: Number,
+    ore: Number,
+    games: Number,
+    fire_arms: Number,
+    medicine: Number,
+    machines: Number,
+    narcotics: Number,
+    robots: Number
+  },
+  ship: {
+    shiptype: String,
+    location: [Number],
+    gadgets: [String],
+    weapons: [String],
+    shields: [String]
+  },
+  game_info: {
+    difficulty: String,
+    planets: [String],
+    current_planet: String
   }
 });
 
