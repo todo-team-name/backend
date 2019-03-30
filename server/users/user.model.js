@@ -47,11 +47,9 @@ const UserSchema = new mongoose.Schema({
     weapons: [String],
     shields: [String]
   },
-  game_info: {
-    difficulty: String,
-    planets: [String],
-    current_planet: String
-  }
+  difficulty: String,
+  game_info_andriod: {},
+  game_info_react: {}
 });
 
 /**
@@ -82,13 +80,11 @@ UserSchema.pre('save', function (next) {
   if (!user.isModified('password')) {
     return next();
   }
-  console.log("aaa")
   // generate a salt
   bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
     if (err) {
       return next(err);
     }
-    console.log("bbb")
 
     // hash the password along with our new salt
     bcrypt.hash(user.password, salt, function(err, hash) {

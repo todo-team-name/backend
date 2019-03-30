@@ -6,7 +6,15 @@ const APIError = require('../helpers/APIError');
 const config = require('../../config/env');
 
 function sendBackUser(savedUser, res) {
-  const token = jwt.sign({user: savedUser}, config.jwtSecret);
+  savedUser = savedUser.toJSON()
+  const forbiddenFruit = new Set(["_id", "password", "createdAt", "__v"])
+  for (key in savedUser) {
+    if (forbiddenFruit.has(key)) {
+      savedUser[key] = undefined;
+    }
+  }
+
+  const token = jwt.sign({...savedUser}, config.jwtSecret);
   return res.json({
     token,
   });
@@ -19,10 +27,21 @@ function sendBackUser(savedUser, res) {
  * @returns {User}
  */
 function signup(req, res, next) {
-  const user = new User({
+  
+  const userObj = {
     username: req.body.username,
-    password: req.body.password
-  });
+    password: req.body.password,
+    points: req.body.points,
+    difficulty: req.body.difficulty, 
+  }
+
+  if (req.body.game_info_andriod) {
+    userObj["game_info_andriod"] = req.body.game_info_andriod;
+  } else if (req.body.game_info_react) {
+    userObj["game_info_react"] = req.body.game_info_react;
+  }
+  
+  const user = new User(userObj);
 
   user.save()
     .then(savedUser => sendBackUser(savedUser, res)).catch(() => {
@@ -40,9 +59,14 @@ function login(req, res, next) {
   })
 }
 
-// todo implement this
+// never do this in real life
 function update(req, res, next) {
-  return res.json({no: "u"});
+  User.findOneAndUpdate({username: req.user.username}, { $set: req.body })
+    .then((candidateUser) => sendBackUser(candidateUser, res))
+    .catch(() => {
+      const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED);
+      return next(err);
+    })
 }
 
 
