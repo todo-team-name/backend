@@ -14,6 +14,8 @@ function sendBackUser(savedUser, res) {
     }
   }
 
+  console.log("SENDING BACK?")
+
   const token = jwt.sign({...savedUser}, config.jwtSecret);
   return res.json({
     token,
@@ -28,23 +30,32 @@ function sendBackUser(savedUser, res) {
  */
 function signup(req, res, next) {
   
+  console.log("WHOOOOOOOHOOOO")
+  console.log(req.body)
+  console.log("WHOOOOOOOHOOOO")
+
   const userObj = {
     username: req.body.username,
     password: req.body.password,
-    points: req.body.points,
-    difficulty: req.body.difficulty, 
+    // points: req.body.points,
+    // difficulty: req.body.difficulty, 
   }
 
-  if (req.body.game_info_andriod) {
-    userObj["game_info_andriod"] = req.body.game_info_andriod;
-  } else if (req.body.game_info_react) {
-    userObj["game_info_react"] = req.body.game_info_react;
-  }
+  // if (req.body.game_info_andriod) {
+  //   userObj["game_info_andriod"] = req.body.game_info_andriod;
+  // } else if (req.body.game_info_react) {
+  //   userObj["game_info_react"] = req.body.game_info_react;
+  // }
   
   const user = new User(userObj);
 
+  console.log("WHOOOOOOOO")
+  console.log(userObj)
+  
   user.save()
-    .then(savedUser => sendBackUser(savedUser, res)).catch(() => {
+    .then(savedUser => sendBackUser(savedUser, res)).catch((err) => {
+      console.log("FUUUUUU")
+      console.log(err)
       const err = new APIError('Authentication error', httpStatus.BAD_REQUEST);
       return next(err);
     })

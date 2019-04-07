@@ -17,6 +17,8 @@ mongoose.connection.on('error', () => {
   throw new Error(`unable to connect to database: ${config.db}`);
 });
 
+console.log(process.env.MONGODB_URI)
+
 // print mongoose logs in dev env
 if (config.MONGOOSE_DEBUG) {
   mongoose.set('debug', (collectionName, method, query, doc) => {
