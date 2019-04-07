@@ -56,8 +56,8 @@ function signup(req, res, next) {
     .then(savedUser => sendBackUser(savedUser, res)).catch((err) => {
       console.log("FUUUUUU")
       console.log(err)
-      const err = new APIError('Authentication error', httpStatus.BAD_REQUEST);
-      return next(err);
+      // const err = new APIError('Authentication error', httpStatus.BAD_REQUEST);
+      return next(userObj);
     })
 }
 
