@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
     shields: [String]
   },
   difficulty: String,
-  game_info_andriod: {},
+  game_info_android: {},
   game_info_react: {}
 });
 
