@@ -35,6 +35,7 @@ function signup(req, res, next) {
     password: req.body.password,
     points: req.body.points,
     difficulty: req.body.difficulty, 
+    game_info_react: req.body.game_info_react
   }
 
   // const userObj = req.body;
